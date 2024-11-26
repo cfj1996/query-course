@@ -17,6 +17,7 @@ const route = useRoute()
 const router = useRouter()
 const queryClient = useQueryClient()
 const { data, isSuccess, isLoading, isStale, isError, error, refetch } = useQuery({
+  staleTime: 2 * 1000,
   queryKey: ['user', Number(route.params.id)],
   queryFn() {
     return dataSource.findOneId(Number(route.params.id))
@@ -95,4 +96,8 @@ watch(
   <el-result v-if="isError" icon="error" title="网络错误" :sub-title="error!.message" />
 </template>
 
-<style scoped></style>
+<style scoped>
+.bg {
+  background-color: #ff0000;
+}
+</style>

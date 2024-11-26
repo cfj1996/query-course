@@ -30,7 +30,7 @@ function addUser(user: User) {
   const users = JSON.parse(localStorage.getItem('users') ?? '[]') as User[]
   if (!users.some((i) => i.id === user.id)) {
     users.unshift(user)
-    console.log('create user')
+    console.log('%c <<---  create user --->>', 'background: #0066ff; color: #ff0000')
     setUsers(users)
   }
   return user
@@ -42,7 +42,7 @@ function deleteUser(id: number) {
     const index = users.findIndex((i) => i.id === id)
     if (index > -1) {
       users.splice(index, 1)
-      console.log('del user')
+      console.log('%c <<---  del user --->>', 'background: #0066ff; color: #ff0000')
       setUsers(users)
       return true
     }
@@ -74,7 +74,7 @@ class DataSource {
         ...users[index],
         ...user,
       }
-      console.log('update user')
+      console.log('%c <<---  update user --->>', 'background: #0066ff; color: #ff0000')
       setUsers(users)
     }
     return users[index]
@@ -83,7 +83,7 @@ class DataSource {
     await _t(500)
     const users = getUsers()
     const user = users.find((i) => i.id === id)
-    console.log('get user')
+    console.log('%c <<---  get user --->>', 'background: #0066ff; color: #ff0000')
     if (user) {
       return user
     }
@@ -93,7 +93,7 @@ class DataSource {
     const { username, page, pageSize } = data
     await _t(500)
     const users = getUsers()
-    console.log('get user list')
+    console.log('%c <<---  get user list --->>', 'background: #0066ff; color: #ff0000')
     if (username) {
       const lists = users.filter((i) => {
         const reg = new RegExp(username, 'i')
