@@ -4,6 +4,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { useMutation, useQuery, useQueryClient } from 'zan-mixin-query'
 import dataSource, { type User } from '@/service/dataSource'
 import { ElMessage } from 'element-plus'
+import UserInfo from './UserInfo.vue'
 
 const formRef = ref()
 const formData = reactive({
@@ -17,7 +18,6 @@ const route = useRoute()
 const router = useRouter()
 const queryClient = useQueryClient()
 const { data, isSuccess, isLoading, isStale, isError, error, refetch } = useQuery({
-  staleTime: 2 * 1000,
   queryKey: ['user', Number(route.params.id)],
   queryFn() {
     return dataSource.findOneId(Number(route.params.id))
@@ -50,10 +50,10 @@ const handleSubmit = async () => {
   mutate(formData)
 }
 watch(
-  () => isSuccess.value && isStale.value,
+  data,
   (value) => {
-    if (value && data.value) {
-      Object.assign(formData, data.value)
+    if (value) {
+      Object.assign(formData, value)
     }
   },
   {
@@ -92,12 +92,7 @@ watch(
       <el-button @click="handleReset">取消</el-button>
       <el-button type="primary" @click="handleSubmit" :loading="isPending">保存</el-button>
     </el-form-item>
+    <UserInfo :id="Number(route.params.id)" />
   </el-form>
   <el-result v-if="isError" icon="error" title="网络错误" :sub-title="error!.message" />
 </template>
-
-<style scoped>
-.bg {
-  background-color: #ff0000;
-}
-</style>

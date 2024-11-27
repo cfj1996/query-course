@@ -27,7 +27,9 @@ const queryClient = useQueryClient()
 const { mutate, variables, isPending } = useMutation({
   mutationFn: dataSource.del,
   async onSuccess(_, id) {
+    // 需要删除这个查询的缓存数据
     queryClient.removeQueries({ queryKey: ['user', id] })
+    // 刷新列表
     return refetch()
   },
   onError(error: Error) {
