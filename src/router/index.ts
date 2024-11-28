@@ -24,6 +24,16 @@ const router = createRouter({
       name: 'baseUpdate',
       component: () => import('@/views/base/CreateUser.vue'),
     },
+    {
+      path: '/base/:id',
+      name: 'baseUserDetail',
+      component: () => import('@/views/base/detail.vue'),
+    },
+    {
+      path: '/linkQuery',
+      name: 'linkQuery',
+      component: () => import('@/views/LinkQuery.vue'),
+    },
   ],
 })
 

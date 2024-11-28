@@ -13,6 +13,9 @@ import { RouterLink, RouterView } from 'vue-router'
           <li class="text-center py-5">
             <RouterLink to="/base">基础的增删改查</RouterLink>
           </li>
+          <li class="text-center py-5">
+            <RouterLink to="/linkQuery">联动查询</RouterLink>
+          </li>
         </ul>
       </el-scrollbar>
     </el-aside>

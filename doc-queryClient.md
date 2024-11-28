@@ -1,12 +1,16 @@
-前言：整个网络请求可以分为推数据（数据变更），拉取数据（数据展示），以往的处理拉取数据采用主要编码实现采用的的事件编程，在组件对应的生命周期发送请求，会定义很多对应网络请求的变量，造成代码篇幅很长，且关联查询实现复杂，边界情况未处理(请求时序等)。
+前言：整个网络请求可以分为推数据（数据变更），拉取数据（数据展示），以往的处理拉取数据采用主要编码实现采用的的事件编程，在组件对应的生命周期发送请求，会定义很多对应网络请求的变量，造成代码篇幅很长，且关联查询实现复杂，边界情况未处理(
+请求时序等)。
 
 # zan-mixin-query 使用介绍
+
 ## 关于拉取数据类： useQuery，useInfiniteQuery， useQueries， useIsFetching Api
+
 Vue Query (只包含拉取数据这类api) 是一个数据获取、缓存和同步库，它通过提供高效、简单的数据获取和状态管理，极大地简化了与服务器交互的复杂性。Vue
 Query 的核心原理涉及缓存、自动刷新、后台数据更新和页面之间的数据同步等。
 
 ## 关于数据推送类： useMutation， useIsMutating，useMutationState Api
- 主要场景创建新资源，更新现有资源，删除资源发送的请求，useMutation 在操作完成后提供了对操作结果的控制，可以对结果进行服务器更新、页面重新渲染、以及错误处理等
+
+主要场景创建新资源，更新现有资源，删除资源发送的请求，useMutation 在操作完成后提供了对操作结果的控制，可以对结果进行服务器更新、页面重新渲染、以及错误处理等
 
 ## useQuery 使用介绍
 
@@ -82,7 +86,7 @@ const {
 | `retry`                       | `boolean \| number \| (failureCount: number, error: TError) => boolean`                    | `3`             | 错误重试次数                                                                                                                                                                                 |
 | `retryOnMount`                | `boolean`                                                                                  | `true`          | 如果设置为 false，则如果查询包含错误，则不会在 mount 时重试查询。                                                                                                                                                |
 | `retryDelay`                  | `number  \| (retryAttempt: number, error: TError) => number`                               | `0`             | 错误重试下次请求间隔时间                                                                                                                                                                           |
-| `staleTime`                   | `number  \| ((query: Query) => number)`                                                    | `0`             | 数据新鲜时间，在这个时间内不会自动触发请求                                                                                                                                                                  |
+| `staleTime`                   | `number  \| ((query: Query) => number)`                                                    | `0`             | 数据过期时间，在这个时间内不会自动触发请求 ，过期后数据会被标记为不新鲜，query 会重新获取数据。                                                                                                                                    |
 | `gcTime`                      | `number \   Infinity`                                                                      | `5 * 60 * 1000` | 当查询的数据未使用或不活动时，指定垃圾回收时间                                                                                                                                                                |
 | `queryKeyHashFn`              | `(queryKey: QueryKey) => string`                                                           |                 | 指定 queryKey 系列化的方法                                                                                                                                                                     |
 | `refetchInterval`             | `number   \| false \| ((query: Query) => number \| false \| undefined)`                    |                 | 轮询时间间隔                                                                                                                                                                                 |
@@ -205,6 +209,7 @@ const handleNextPage = () => {
 ```
 
 ## QueryClient 实例: useQueryClient
+
 queryClient 主要用来操作缓存数据，获取数据等方法
 
 ```jsx
@@ -218,7 +223,7 @@ queryClient.setQueryData(queryKey, updateData)
 // 获取查询数据
 queryClient.getQueryData(queryKey)
 // 使查询的数据立即失效
-await queryClient.invalidateQueries({ queryKey: ['posts']},)
+await queryClient.invalidateQueries({ queryKey: ['posts'] },)
 // 删除查询数据
 queryClient.removeQueries({ queryKey, exact: true })
 ```

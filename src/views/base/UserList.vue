@@ -63,8 +63,8 @@ const router = useRouter()
           type="primary"
           link
           @click="router.push({ name: 'baseCreate' })"
-          >新增</el-button
-        >
+          >新增
+        </el-button>
       </template>
       <el-form inline class="flex justify-between">
         <el-form-item class="mb-0" label="用户名">
@@ -73,6 +73,7 @@ const router = useRouter()
         <el-form-item class="mb-0">
           <el-button @click="handleReset">重置</el-button>
           <el-button type="primary" :loading="isLoading" @click="handleSubmit">查询</el-button>
+          <el-button type="primary" :loading="isLoading" @click="handleSubmit">详情</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -98,16 +99,22 @@ const router = useRouter()
             <el-button
               type="primary"
               link
+              @click="router.push({ name: 'baseUserDetail', params: { id: row.id } })"
+              >详情
+            </el-button>
+            <el-button
+              type="primary"
+              link
               @click="router.push({ name: 'baseUpdate', params: { id: row.id } })"
-              >编辑</el-button
-            >
+              >编辑
+            </el-button>
             <el-button
               type="danger"
               :loading="variables === row.id && isPending"
               link
               @click="() => mutate(row.id)"
-              >删除</el-button
-            >
+              >删除
+            </el-button>
           </template>
         </el-table-column>
       </el-table>

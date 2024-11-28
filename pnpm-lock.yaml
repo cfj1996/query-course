@@ -21,8 +21,8 @@ importers:
         specifier: ^4.4.5
         version: 4.5.0(vue@3.5.13(typescript@5.6.3))
       zan-mixin-query:
-        specifier: 1.0.6
-        version: 1.0.6(vue@3.5.13(typescript@5.6.3))
+        specifier: ^1.0.25
+        version: 1.0.25(vue@3.5.13(typescript@5.6.3))
     devDependencies:
       '@tsconfig/node22':
         specifier: ^22.0.0
@@ -2024,8 +2024,8 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
 
-  zan-mixin-query@1.0.6:
-    resolution: {integrity: sha512-cqnL462tlHFMz/XD+fKgDIq9TMl27WFFgkU3YZe1Tj8hs6WJPyQ/tQg9U9vKrnLJg6leROuIP2cu3H9mj1VDEw==}
+  zan-mixin-query@1.0.25:
+    resolution: {integrity: sha512-ApV9nDwE0MQW9k33SSP90mbQDJgF7oGTY1r8NG0T0vrPS12skhOaLQmekbzPJp/RHwpjAbXk6H7cbXDm/2ly7g==}
     peerDependencies:
       '@vue/composition-api': ^1.7.2
       vue: ^2.6.0 || ^3.3.0
@@ -3943,7 +3943,7 @@ snapshots:
 
   yocto-queue@0.1.0: {}
 
-  zan-mixin-query@1.0.6(vue@3.5.13(typescript@5.6.3)):
+  zan-mixin-query@1.0.25(vue@3.5.13(typescript@5.6.3)):
     dependencies:
       vue: 3.5.13(typescript@5.6.3)
       vue-demi: 0.14.10(vue@3.5.13(typescript@5.6.3))
