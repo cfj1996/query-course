@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive, ref, watch } from 'vue'
+import { reactive, ref, watch, watchEffect } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useMutation, useQuery, useQueryClient } from 'zan-mixin-query'
 import dataSource, { type User } from '@/service/dataSource'
@@ -24,6 +24,9 @@ const { data, isSuccess, isLoading, isStale, isError, error, refetch } = useQuer
   },
   refetchOnWindowFocus: false,
   enabled: Boolean(route.params.id),
+})
+watchEffect(() => {
+  console.log('isStale', isStale.value)
 })
 const { mutate, isPending } = useMutation({
   mutationFn(values: Omit<User, 'id'>) {

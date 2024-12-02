@@ -13,7 +13,7 @@ const _t = <T>(t: number, v?: T): Promise<T | undefined> => {
   })
 }
 
-function getUsers(): User[] {
+export function getUsers(): User[] {
   try {
     return JSON.parse(localStorage.getItem('users') ?? '[]')
   } catch (error) {
@@ -21,7 +21,7 @@ function getUsers(): User[] {
   }
 }
 
-function setUsers(users: User[]) {
+export function setUsers(users: User[]) {
   localStorage.setItem('users', JSON.stringify(users))
   return users
 }
@@ -93,7 +93,13 @@ class DataSource {
     const { username, page, pageSize } = data
     await _t(500)
     const users = getUsers()
-    console.log('%c <<---  get user list --->>', 'background: #0066ff; color: #ff0000')
+    console.log(
+      `%c <<---  get user list --->>${JSON.stringify(data)}`,
+      'background: #0066ff; color: #ff0000',
+    )
+    if (localStorage.getItem('error') === page.toString()) {
+      throw new Error(`${page}页错误`)
+    }
     if (username) {
       const lists = users.filter((i) => {
         const reg = new RegExp(username, 'i')
@@ -102,11 +108,15 @@ class DataSource {
       return {
         items: lists.slice((page - 1) * pageSize, page * pageSize),
         count: lists.length,
+        currentPage: page,
+        pages: Math.ceil(lists.length / pageSize),
       }
     }
     return {
       items: users.slice((page - 1) * pageSize, page * pageSize),
       count: users.length,
+      currentPage: page,
+      pages: Math.ceil(users.length / pageSize),
     }
   }
 }

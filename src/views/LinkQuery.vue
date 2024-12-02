@@ -4,8 +4,9 @@ import dataSource from '@/service/dataSource'
 import UserInfo from '@/components/UserInfo.vue'
 import { ref, watch } from 'vue'
 
-const activeName = ref()
-
+defineOptions({
+  name: 'LinkQuery',
+})
 const { data, isLoading } = useQuery({
   queryKey: ['user'],
   queryFn() {
@@ -16,6 +17,7 @@ const { data, isLoading } = useQuery({
     })
   },
 })
+const activeName = ref(data.value?.items[0]?.id)
 watch(
   data,
   (value) => {
@@ -44,5 +46,3 @@ watch(
     </template>
   </el-card>
 </template>
-
-<style scoped></style>

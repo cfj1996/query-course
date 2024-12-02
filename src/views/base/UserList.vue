@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive, ref, watch } from 'vue'
+import { reactive, ref } from 'vue'
 import { useMutation, useQuery, useQueryClient } from 'zan-mixin-query'
 import dataSource from '@/service/dataSource'
 import { useRouter } from 'vue-router'
@@ -12,7 +12,12 @@ const page = ref(1)
 const pageSize = ref(10)
 const formData = reactive({ username: '' })
 const username = ref('')
-const { data, isLoading, error, refetch } = useQuery({
+const {
+  data,
+  isFetching: isLoading,
+  error,
+  refetch,
+} = useQuery({
   queryKey: ['user', formData, page, pageSize],
   queryFn({ queryKey }) {
     const data = queryKey[1] as { username: string }
@@ -22,6 +27,7 @@ const { data, isLoading, error, refetch } = useQuery({
       pageSize: pageSize.value,
     })
   },
+  placeholderData: (previousData) => previousData,
 })
 const queryClient = useQueryClient()
 const { mutate, variables, isPending } = useMutation({
@@ -36,20 +42,24 @@ const { mutate, variables, isPending } = useMutation({
     ElMessage.error(error.message)
   },
 })
-const total = ref(data.value?.count)
 const handleReset = () => {
   username.value = ''
   page.value = 1
   formData.username = ''
+  refetch()
 }
-watch(data, (value) => {
-  if (value && value.count) {
-    total.value = value.count
-  }
-})
 const handleSubmit = () => {
   page.value = 1
   formData.username = username.value
+  refetch()
+}
+const paginationPageChange = (val: number) => {
+  page.value = val
+  console.log('currentPage', val)
+}
+const paginationPageSizeChange = (val: number) => {
+  pageSize.value = val
+  console.log('pageSize', val)
 }
 const router = useRouter()
 </script>
@@ -73,7 +83,6 @@ const router = useRouter()
         <el-form-item class="mb-0">
           <el-button @click="handleReset">重置</el-button>
           <el-button type="primary" :loading="isLoading" @click="handleSubmit">查询</el-button>
-          <el-button type="primary" :loading="isLoading" @click="handleSubmit">详情</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -120,7 +129,13 @@ const router = useRouter()
       </el-table>
     </el-card>
     <el-card class="mt-4 flex justify-end">
-      <el-pagination v-model:current-page="page" v-model:page-size="pageSize" :total="total" />
+      <el-pagination
+        :current-page="page"
+        :page-size="pageSize"
+        :total="data?.count"
+        @size-change="paginationPageSizeChange"
+        @current-change="paginationPageChange"
+      />
     </el-card>
   </div>
 </template>
